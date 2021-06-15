@@ -1,3 +1,4 @@
+var browser = (window.browser)? window.browser : window.chrome;
 // Asks background.js to send out to the server if image is ok
 function clean() {
      var elements = document.getElementsByTagName('img');
@@ -18,9 +19,9 @@ function clean() {
                
                element.parentNode.replaceChild(pic, element);
                
-               // chrome.runtime.sendMessage(text);
+               // browser.runtime.sendMessage(text);
                
-               chrome.runtime.sendMessage({message: text}, function(response) {
+               browser.runtime.sendMessage({message: text}, function(response) {
                     // respond(response, text)
                   });
                
@@ -30,7 +31,7 @@ function clean() {
 }
 
 // Triggers if background.js gets the response to censor
-chrome.runtime.onMessage.addListener(
+browser.runtime.onMessage.addListener(
      function(request, sender, sendResponse) {
           var elements = document.getElementsByTagName('img');
           for (var i = 0; i < elements.length; i++) {
@@ -43,7 +44,10 @@ chrome.runtime.onMessage.addListener(
                     pic = element
                     pic.swapped = 1
                     pic.src = text
-                    pic.style.cssText = element.style.cssText + ' filter: brightness(0%);';
+
+                    pic.className += 'fences_censor'
+
+                    
                     // pic.replaced = 1
                     // pic.original = text
                     // pic.src = 'https://i.imgur.com/wwedB2C.png'

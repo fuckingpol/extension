@@ -1,0 +1,9 @@
+img.fences_censor {
+    filter: brightness(0%);
+    transition: filter 0.5s;
+}
+img.fences_censor:hover {
+    filter: brightness(100%)
+}
+
+

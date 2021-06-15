@@ -1,4 +1,6 @@
-chrome.contextMenus.create({
+var browser = (window.browser)? window.browser : window.chrome;
+
+browser.contextMenus.create({
     id: "Report",
     title: "Report",
     contexts: ["image"]
@@ -8,7 +10,7 @@ chrome.contextMenus.create({
 // If marked for hide then report as false
 // If not marked for hide then report as true
 // {"editable":false,"frameId":0,"linkUrl":"https://i.4cdn.org/b/1612267834478.jpg",
- chrome.contextMenus.onClicked.addListener(function(info, tab) {
+browser.contextMenus.onClicked.addListener(function(info, tab) {
      var storageCache = {};
      if (tab) {
         let submit = new XMLHttpRequest();
@@ -17,7 +19,7 @@ chrome.contextMenus.create({
 
 
 
-          chrome.storage.sync.get(null, function(data) {
+          browser.storage.sync.get(null, function(data) {
                var storageCache = JSON.stringify(data);
                var sendcode = ''
 
@@ -57,9 +59,9 @@ chrome.contextMenus.create({
      }
  });
 
-chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
+browser.runtime.onMessage.addListener(function(request, sender, sendResponse) {
      var storageCache = {};
-     chrome.storage.sync.get(null, function(data) {
+     browser.storage.sync.get(null, function(data) {
        var storageCache = JSON.stringify(data);
        var sendcode = ''
        
@@ -116,8 +118,8 @@ chrome.runtime.onMessage.addListener(function(request, sender, sendResponse) {
                     }
 
                     if (censor){
-                         chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-                              chrome.tabs.sendMessage(tabs[0].id, {message: image}, function(response) {
+                         browser.tabs.query({active: true, currentWindow: true}, function(tabs) {
+                              browser.tabs.sendMessage(tabs[0].id, {message: image}, function(response) {
                               //   console.log(response.farewell);
                               });
                          });
